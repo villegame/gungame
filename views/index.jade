@@ -62,14 +62,28 @@ html
                     table
                         tr
                             td
-                                div(id="info") Set up your tank position by clicking desired X on map or by text fields on right. After that you can move with either buttons on right or with keyboard (arrow keys). Clicking on map when your tank is deployed will shoot. Text field on right can also be used to shoot. Moving and shooting have both cooldown of 2 seconds.
+                                div(id="info") 
+                                    font(color='blue') @
+                                    |  : Your tank
+                                    br
+                                    font(color='brown') X
+                                    |  : Moveable / shootable terrain
+                                    br
+                                    font(color='red') *
+                                    |  : Explosion
+                                    br
+                                    font(color='blue') *
+                                    |  : Approximate origin of enemy fire
                                     br
                                     br
-                                    | My blog can be found in 
-                                    a(href='http://villegame.wordpress.com/' target='_blank') here.
+                                    | More of the controls can be found in 
+                                    a(href='info.txt' target='_blank') here.
                                     br
                                     | Used sound resources are linked in 
                                     a(href='usedsounds.txt' target='_blank') here.
+                                    br
+                                    | My blog can be found in 
+                                    a(href='http://villegame.wordpress.com/' target='_blank') here.
                 td
                     table
                         tr
