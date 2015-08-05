@@ -1,0 +1,118 @@
+p {
+    font-family: "Times New Roman";
+    font-size: 22px;
+}
+
+#maplink {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1 {
+    text-align: center;
+}
+
+#gametable {
+    background-color: black;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+td {
+
+}
+
+#infobox {
+    background-color:slategray;
+    width: 500px;
+    height: 50px;
+    padding: 10px;
+}
+
+#owncoords {
+    background-color:slategray;
+    width: 238px;
+    height: 50px;
+    padding: 10px;
+}
+
+#gamedata {
+    background-color:slategray;
+    width: 238px;
+    height: 50px;
+    padding: 10px;
+}
+
+#form {
+    background-color:slategray;
+    width: 500px;
+    height: 100px;
+    padding: 10px;
+}
+
+#moving {
+    background-color:slategray;
+    width: 500px;
+    height: 115px;
+    padding: 10px;
+}
+
+#moveup {
+    width: 10em;  
+    height: 4em;
+}
+
+#movedown{
+    width: 10em;  
+    height: 4em;
+}
+
+#moveleft{
+    width: 10em;  
+    height: 8em;
+}
+
+#moveright {
+    width: 10em;  
+    height: 8em;
+}
+
+#inputside {
+    background-color:lightgray;
+    width: 525px;
+    height: 420px;
+    padding: 10px;
+}
+
+#info {
+    background-color:lightgray;
+    margin-left:auto; 
+    margin-right:auto;
+    width: 400px;
+    height: 160px;
+    padding: 10px;
+}
+
+#chatarea {
+    background-color:lightgray;
+    margin-left:auto; 
+    margin-right:auto;
+    width: 513px;
+    height: 160px;
+    padding: 10px;
+}
+
+#chatbox {
+    background-color:slategray;
+    width: 505px;
+    height: 130px;;
+    overflow: auto;
+    padding: 5px;
+}
+
+#map {
+    background-color:green;
+    width:400px;
+    height:420px;
+    padding: 10px;
+}

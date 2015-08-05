@@ -1,0 +1,4 @@
+reload: https://www.freesound.org/people/NoiseCollector/sounds/17130/
+shoot: https://www.freesound.org/people/ReadeOnly/sounds/186951/
+explosion: https://www.freesound.org/people/Bekir_VirtualDJ/sounds/132833/
+move: https://www.freesound.org/people/cognito%20perceptu/sounds/21187/
