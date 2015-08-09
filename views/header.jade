@@ -112,29 +112,78 @@ head
 
         shootTo = function(x, y) {
         
-            //audioShoot.play(); // moved to message 'someoneshot'
-            socket.emit('shoot',{target : {X: x, Y: y}, origin : { X: own_coordinates.X, Y: own_coordinates.Y}, id: own_id });
+            if(x > -1 && x < game_area_size_x && 
+               y > -1 && y < game_area_size_y &&
+               !isNaN(x) && !isNaN(y)) {                        
+                
+                //audioShoot.play(); // moved to message 'someoneshot'
+                socket.emit('shoot',{target : {X: x, Y: y}, origin : { X: own_coordinates.X, Y: own_coordinates.Y}, id: own_id });
 
-            // DISABLE SHOOTING
-            shootingDisEn(true);
+                // DISABLE SHOOTING
+                shootingDisEn(true);
 
-            is_loaded = false;
-            owncoords.innerHTML = "<font color=red>Loading gun!</font>";
+                is_loaded = false;
+                owncoords.innerHTML = "<font color=red>Loading gun!</font>";
 
-            setTimeout(function() {
-                // ENABLE SHOOTING
-                shootingDisEn(false);
-                is_loaded = true;
-                owncoords.innerHTML = "<font color=blue>Gun loaded!</font>";
+                setTimeout(function() {
+                    // ENABLE SHOOTING
+                    shootingDisEn(false);
+                    is_loaded = true;
+                    owncoords.innerHTML = "<font color=blue>Gun loaded!</font>";
 
-                //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
-                //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
-                drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
-                audioReload.play();
-            },2000);
+                    //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
+                    //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
+                    drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
+                    audioReload.play();
+                },2000);
+            
+            }
+            else {
+                infobox.innerHTML = "Give proper coordinates 0-"+(game_area_size_x-1)+" x 0-"+(game_area_size_y-1);
+            }
+        
+        
         }
 
         coordsTo = function(x, y) {   
+        
+        
+            if(x > -1 && x < game_area_size_x && 
+               y > -1 && y < game_area_size_y &&
+               !isNaN(x) && !isNaN(y)) {
+                    
+                    own_coordinates.X = x;
+                    own_coordinates.Y = y;
+
+                    ownCoords = own_coordinates;
+
+                    //ownCoordsX.value = x;
+                    //ownCoordsY.value = y;
+
+                    //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
+                    //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
+                    drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
+
+                    owncoords.innerHTML = "Coordinates set to " + own_coordinates.X + " x " + own_coordinates.Y + "<br />Start shooting by clicking on map or giving coordinates on form.";
+
+                    // DISABLE SET COORDINATES
+                    ownCoordsDisEn(true);
+                    // ENABLE SHOOTING
+                    shootingDisEn(false);
+
+                    // DISABLE MOVING
+                    movingDisEn(true);
+                    owncoords.innerHTML = "<font color=red>Moving!</font>";
+                    setTimeout(function() {
+                        // ENABLE MOVING
+                        movingDisEn(false);
+                        owncoords.innerHTML = "<font color=blue>Moving finished!</font>";
+                    },2000);
+
+            }
+            else {
+                owncoords.innerHTML = "Give proper coordinates 0-"+(game_area_size_x-1)+" x 0-"+(game_area_size_y-1);
+            }
         
             audioMove.play();
             is_dead = false;
@@ -143,34 +192,6 @@ head
             if(y < 1) y = 1;
             if(x > game_area_size_x) x = game_area_size_x;
             if(y > game_area_size_y) y = game_area_size_y;
-
-            own_coordinates.X = x;
-            own_coordinates.Y = y;
-            
-            ownCoords = own_coordinates;
-            
-            //ownCoordsX.value = x;
-            //ownCoordsY.value = y;
-
-            //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
-            //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
-            drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
-
-            owncoords.innerHTML = "Coordinates set to " + own_coordinates.X + " x " + own_coordinates.Y + "<br />Start shooting by clicking on map or giving coordinates on form.";
-
-            // DISABLE SET COORDINATES
-            ownCoordsDisEn(true);
-            // ENABLE SHOOTING
-            shootingDisEn(false);
-            
-            // DISABLE MOVING
-            movingDisEn(true);
-            owncoords.innerHTML = "<font color=red>Moving!</font>";
-            setTimeout(function() {
-                // ENABLE MOVING
-                movingDisEn(false);
-                owncoords.innerHTML = "<font color=blue>Moving finished!</font>";
-            },2000);
         }
 
 
@@ -264,29 +285,11 @@ head
             //
             
             shoot.onclick = function () {
-                //console.log(coord.value);
-                if(coordX.value > -1 && coordX.value < game_area_size_x && 
-                   coordY.value > -1 && coordY.value < game_area_size_y &&
-                  !isNaN(coordX.value) && !isNaN(coordY.value)) {                        
-                    //socket.emit('shoot',{coordinateX: coordX.value, coordinateY: coordY.value});
-                    shootTo(coordX.value, coordY.value);
-                }
-                else {
-                    infobox.innerHTML = "Give proper coordinates 0-"+(game_area_size_x-1)+" x 0-"+(game_area_size_y-1);
-                }
+                shootTo(coordX.value, coordY.value);
             }
 
             lockCoords.onclick = function () {
-                if(ownCoordsX.value > -1 && ownCoordsX.value < game_area_size_x && 
-                   ownCoordsY.value > -1 && ownCoordsY.value < game_area_size_y &&
-                  !isNaN(ownCoordsX.value) && !isNaN(ownCoordsY.value)) {
-
-                    coordsTo(ownCoordsX.value,ownCoordsY.value);
-
-                }
-                else {
-                    owncoords.innerHTML = "Give proper coordinates 0-"+(game_area_size_x-1)+" x 0-"+(game_area_size_y-1);
-                }
+                coordsTo(ownCoordsX.value,ownCoordsY.value);
             }
             
             sendChatMessage.onclick = function () {

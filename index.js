@@ -53,12 +53,13 @@ io.on('connection', function(socket) {
     });
     
     socket.on('shoot', function(data) {
-        //console.log('shooting... ' + data.coordinateX + " x " + data.coordinateY);
+        //console.log(data.id + ' shoots from ' + data.origin.X + ' x ' + data.origin.Y + ' to ' + data.target.X + " x " + data.target.Y);
         
         // Origin of shot:
         // Server should mix this by random +(-1,0, or +1) to x and y of origin value
-        data.origin.X += Math.floor((Math.random() * 3) - 1);
-        data.origin.Y += Math.floor((Math.random() * 3) - 1);
+        data.origin.X = (data.origin.X + Math.floor((Math.random() * 3) - 1));
+        data.origin.Y = (data.origin.Y + Math.floor((Math.random() * 3) - 1));
+        //console.log('emitting origin as ' + data.origin.X + ' x ' + data.origin.Y);
         io.emit('someoneshot',data);
     });
     
