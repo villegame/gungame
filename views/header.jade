@@ -56,7 +56,7 @@ head
         }
 
         function drawMap(self, explosion, origin, draw_origin) {
-            var mapString = "<font face=fixedsys size=6>";
+            var mapString = "";
             for(var y = 1; y <= game_area_size_y; y++) {
                 for(var x = 1; x <= game_area_size_x; x++) {
                     var isSelf = false;
@@ -65,47 +65,46 @@ head
 
                     if(explosion.X == x && explosion.Y == y) {
                         if(!is_dead && is_loaded) {
-                            mapString += "<font color=red><a href='#' id='maplink' onclick='shootTo("+x+","+y+"); return false;'>*</a> </font>";
+                            mapString += "<font id='mapFont' color=red><a href='#' id='maplink' onclick='shootTo("+x+","+y+"); return false;'>*</a> </font>";
                         }
                         else if(is_dead) {
-                            mapString += "<font color=red><a href='#' id='maplink' onclick='coordsTo("+x+","+y+"); return false;'>*</a> </font>";
+                            mapString += "<font id='mapFont' color=red><a href='#' id='maplink' onclick='coordsTo("+x+","+y+"); return false;'>*</a> </font>";
                         }
                         else {
-                            mapString += "<font color=red>* </font>";
+                            mapString += "<font id='mapFont' color=red>* </font>";
                         }
                         isExplo = true;
                     }
                     else if(self.X == x && self.Y == y) {
-                        mapString += "<font color=blue>@ </font>";
+                        mapString += "<font id='mapFont' color=blue>@ </font>";
                         isSelf = true;
                     }
                     else if(draw_origin && (origin.X-1 <= x && origin.X+1 >= x && origin.Y-1 <= y && origin.Y+1 >= y)) {
                         if(!is_dead && is_loaded) {
-                            mapString += "<font color=blue><a href='#' id='maplink' onclick='shootTo("+x+","+y+"); return false;'>*</a> </font>";
+                            mapString += "<font id='mapFont' color=blue><a href='#' id='maplink' onclick='shootTo("+x+","+y+"); return false;'>*</a> </font>";
                         }
                         else if(is_dead) {
-                            mapString += "<font color=blue><a href='#' id='maplink' onclick='coordsTo("+x+","+y+"); return false;'>*</a> </font>";
+                            mapString += "<font id='mapFont' color=blue><a href='#' id='maplink' onclick='coordsTo("+x+","+y+"); return false;'>*</a> </font>";
                         }
                         else {
-                            mapString += "<font color=blue>* </font>";
+                            mapString += "<font id='mapFont' color=blue>* </font>";
                         }
                         isOrigin = true;                        
                     }
 
                     if(!isSelf && !isExplo && !isOrigin && is_dead) {
-                        mapString += "<font color=brown><a href='#' id='maplink' onclick='coordsTo("+x+","+y+"); return false;'>X</a> </font>";
+                        mapString += "<font id='mapFont' color=brown><a href='#' id='maplink' onclick='coordsTo("+x+","+y+"); return false;'>X</a> </font>";
                     }
                     else if(!isSelf && !isExplo && !isOrigin && is_loaded) {
-                        mapString += "<font color=brown><a href='#' id='maplink' onclick='shootTo("+x+","+y+"); return false;'>X</a> </font>";
+                        mapString += "<font id='mapFont' color=brown><a href='#' id='maplink' onclick='shootTo("+x+","+y+"); return false;'>X</a> </font>";
                     }
                     else if (!isSelf && !isExplo && !isOrigin && !is_loaded) {
-                        mapString += "<font color=brown>X </font>";
+                        mapString += "<font id='mapFont' color=brown>X </font>";
                     }
                                         
                 }
                 mapString += "<br />";
             }
-            mapString += "</font>";
             map.innerHTML = mapString;
             //console.log("KARTTA");
         }
@@ -196,6 +195,7 @@ head
                 //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
                 //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
                 drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
+                //owncoords.innerHTML = "Connected.";
             });
             
             //

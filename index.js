@@ -18,13 +18,14 @@ app.get('/', function(req,res) {
 });
 */
 
-app.get('/', function(req,res) {
-    //res.sendfile('public/index.html');
-    res.render('index');
-});
-
 // Sets webroot to 'public' directory
 app.use('/', express.static('public'));
+
+app.get('/', function(req,res) {
+    //res.sendfile('public/index.html');
+    //console.log('New connection with ' + req.headers['user-agent']);
+    res.render('index');
+});
 
 //
 // SERVER CODE STARTS HERE
@@ -80,5 +81,5 @@ var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
 http.listen(server_port, server_ip_address, function() {
-    console.log('listening port 80...');
+    console.log('listening ' + server_ip_address + ' on port ' + server_port);
 });
