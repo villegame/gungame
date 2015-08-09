@@ -19,6 +19,7 @@ head
         
         var own_id = generateId(); //"thisisrandomtobe";
         
+        /*
         function ownCoordsDisEn(toBeDisabled) {
             // DUSABLE/ENABLE SET COORDINATES
             document.getElementById('ownCoordsX').disabled = toBeDisabled;
@@ -31,7 +32,7 @@ head
             document.getElementById('coordX').disabled = toBeDisabled;
             document.getElementById('coordY').disabled = toBeDisabled;
             document.getElementById('shoot').disabled = toBeDisabled;
-        }
+        }*/
         
         function movingDisEn(toBeDisabled) {
             // DISABLE/ENABLE MOVING
@@ -112,22 +113,22 @@ head
 
         shootTo = function(x, y) {
         
-            if(x > -1 && x < game_area_size_x && 
-               y > -1 && y < game_area_size_y &&
+            if(x > -1 && x <= game_area_size_x && 
+               y > -1 && y <= game_area_size_y &&
                !isNaN(x) && !isNaN(y)) {                        
                 
                 //audioShoot.play(); // moved to message 'someoneshot'
                 socket.emit('shoot',{target : {X: x, Y: y}, origin : { X: own_coordinates.X, Y: own_coordinates.Y}, id: own_id });
 
                 // DISABLE SHOOTING
-                shootingDisEn(true);
+                //shootingDisEn(true);
 
                 is_loaded = false;
                 owncoords.innerHTML = "<font color=red>Loading gun!</font>";
 
                 setTimeout(function() {
                     // ENABLE SHOOTING
-                    shootingDisEn(false);
+                    //shootingDisEn(false);
                     is_loaded = true;
                     owncoords.innerHTML = "<font color=blue>Gun loaded!</font>";
 
@@ -148,8 +149,8 @@ head
         coordsTo = function(x, y) {   
         
         
-            if(x > -1 && x < game_area_size_x && 
-               y > -1 && y < game_area_size_y &&
+            if(x > -1 && x <= game_area_size_x && 
+               y > -1 && y <= game_area_size_y &&
                !isNaN(x) && !isNaN(y)) {
                     
                     audioMove.play();
@@ -175,9 +176,9 @@ head
                     owncoords.innerHTML = "Coordinates set to " + own_coordinates.X + " x " + own_coordinates.Y + "<br />Start shooting by clicking on map or giving coordinates on form.";
 
                     // DISABLE SET COORDINATES
-                    ownCoordsDisEn(true);
+                    //ownCoordsDisEn(true);
                     // ENABLE SHOOTING
-                    shootingDisEn(false);
+                    //shootingDisEn(false);
 
                     // DISABLE MOVING
                     movingDisEn(true);
@@ -207,9 +208,9 @@ head
                 //console.log(data.message);
 
                 // ENABLE SET COORDINATES
-                ownCoordsDisEn(false);
+                //ownCoordsDisEn(false);
                 // DISABLE SHOOTING
-                shootingDisEn(true);
+                //shootingDisEn(true);
                 // DISABLE MOVING
                 movingDisEn(true);
 
@@ -240,9 +241,9 @@ head
                     is_dead = true;
 
                     // ENABLE SET COORDINATES
-                    ownCoordsDisEn(false);
+                    //ownCoordsDisEn(false);
                     // DISABLE SHOOTING
-                    shootingDisEn(true);
+                    //shootingDisEn(true);
 
                     //socket.emit('dead', {X: own_coordinates.X, Y: own_coordinates.Y});
                     socket.emit('dead', own_coordinates);
@@ -284,6 +285,10 @@ head
             // Local input functions
             //
             
+            /*
+            
+            // These arent working properly...
+            
             shoot.onclick = function () {
                 shootTo(coordX.value, coordY.value);
             }
@@ -291,6 +296,7 @@ head
             lockCoords.onclick = function () {
                 coordsTo(ownCoordsX.value,ownCoordsY.value);
             }
+            */
             
             sendChatMessage.onclick = function () {
                 //console.log("chatmsg");

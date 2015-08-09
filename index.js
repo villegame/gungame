@@ -57,6 +57,7 @@ io.on('connection', function(socket) {
         
         // Origin of shot:
         // Server should mix this by random +(-1,0, or +1) to x and y of origin value
+        
         data.origin.X = (data.origin.X + Math.floor((Math.random() * 3) - 1));
         data.origin.Y = (data.origin.Y + Math.floor((Math.random() * 3) - 1));
         //console.log('emitting origin as ' + data.origin.X + ' x ' + data.origin.Y);
