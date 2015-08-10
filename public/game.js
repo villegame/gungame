@@ -165,20 +165,21 @@ coordsTo = function(x, y) {
 
 window.onload = function() {
 
-    chatbox.innerHTML = chatbox.innerHTML + "Chat area...<br />"
+    chatbox.innerHTML = chatbox.innerHTML + "Chat area...<br />";
 
+    //
+    // Socket functions
+    //
+    
     // Listen messages from server
-    socket.on('connected', function(data) {
+    
+    socket.on('connected', function(data) {        
         // Disable moving
         movingDisEn(true);
         
         // Draw map
         drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
     });
-
-    //
-    // Socket functions
-    //
 
     socket.on('someoneshot', function(data) {
 
