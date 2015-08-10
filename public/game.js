@@ -12,25 +12,10 @@ var audioReload = new Audio('reload.wav');
 var audioExplosion = new Audio('explosion.wav');
 var audioMove = new Audio('move.wav');
 
-var own_id = generateId(); //"thisisrandomtobe";
+var own_id = generateId(); // Random id
 
-/*
-function ownCoordsDisEn(toBeDisabled) {
-    // DUSABLE/ENABLE SET COORDINATES
-    document.getElementById('ownCoordsX').disabled = toBeDisabled;
-    document.getElementById('ownCoordsY').disabled = toBeDisabled;
-    document.getElementById('lockCoords').disabled = toBeDisabled;
-}
-
-function shootingDisEn(toBeDisabled) {
-    // DISABLE/ENABLE SHOOTING
-    document.getElementById('coordX').disabled = toBeDisabled;
-    document.getElementById('coordY').disabled = toBeDisabled;
-    document.getElementById('shoot').disabled = toBeDisabled;
-}*/
-
+// Disable / enable moving
 function movingDisEn(toBeDisabled) {
-    // DISABLE/ENABLE MOVING
     document.getElementById('moveup').disabled = toBeDisabled;
     document.getElementById('movedown').disabled = toBeDisabled;
     document.getElementById('moveleft').disabled = toBeDisabled;
@@ -40,6 +25,7 @@ function movingDisEn(toBeDisabled) {
     is_moving = toBeDisabled;
 }
 
+// Generate random Id
 function generateId()
 {
     var id = "";
@@ -51,6 +37,7 @@ function generateId()
     return id;
 }
 
+// Draw game map
 function drawMap(self, explosion, origin, draw_origin) {
     var mapString = "";
     for(var y = 1; y <= game_area_size_y; y++) {
@@ -102,34 +89,25 @@ function drawMap(self, explosion, origin, draw_origin) {
         mapString += "<br />";
     }
     map.innerHTML = mapString;
-    //console.log("KARTTA");
 }
 
-
+// Shooting function
 shootTo = function(x, y) {
 
     if(x > -1 && x <= game_area_size_x && 
        y > -1 && y <= game_area_size_y &&
        !isNaN(x) && !isNaN(y)) {                        
 
-        //audioShoot.play(); // moved to message 'someoneshot'
         socket.emit('shoot',{target : {X: x, Y: y}, origin : { X: own_coordinates.X, Y: own_coordinates.Y}, id: own_id });
-
-        // DISABLE SHOOTING
-        //shootingDisEn(true);
 
         is_loaded = false;
         owncoords.innerHTML = "<font color=red>Loading gun!</font>";
 
         setTimeout(function() {
-            // ENABLE SHOOTING
-            //shootingDisEn(false);
             is_loaded = true;
             owncoords.innerHTML = "<font color=blue>Gun loaded!</font>";
-
-            //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
-            //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
             drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
+            // Click!
             audioReload.play();
         },2000);
 
@@ -141,45 +119,39 @@ shootTo = function(x, y) {
 
 }
 
+// Movement function
 coordsTo = function(x, y) {   
-
 
     if(x > -1 && x <= game_area_size_x && 
        y > -1 && y <= game_area_size_y &&
        !isNaN(x) && !isNaN(y)) {
 
+            // Wroom!
             audioMove.play();
 
+            // Keep coordinates within borders
             if(x < 1) x = 1;
             if(y < 1) y = 1;
             if(x > game_area_size_x) x = game_area_size_x;
             if(y > game_area_size_y) y = game_area_size_y;
 
+            // Set new coordinates
             own_coordinates.X = x;
             own_coordinates.Y = y;
 
-            ownCoords = own_coordinates;
-
-            //ownCoordsX.value = x;
-            //ownCoordsY.value = y;
-
-            //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
-            //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
+            // Set not dead because function is used when setting up a new position after destruction
             is_dead = false;
+        
             drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
 
             owncoords.innerHTML = "Coordinates set to " + own_coordinates.X + " x " + own_coordinates.Y + "<br />Start shooting by clicking on map or giving coordinates on form.";
 
-            // DISABLE SET COORDINATES
-            //ownCoordsDisEn(true);
-            // ENABLE SHOOTING
-            //shootingDisEn(false);
-
-            // DISABLE MOVING
+            // Disable moving for a while
             movingDisEn(true);
+        
             owncoords.innerHTML = "<font color=red>Moving!</font>";
             setTimeout(function() {
-                // ENABLE MOVING
+                // Enable moving
                 movingDisEn(false);
                 owncoords.innerHTML = "<font color=blue>Moving finished!</font>";
             },2000);
@@ -192,27 +164,16 @@ coordsTo = function(x, y) {
 
 
 window.onload = function() {
-    //var socket = io();
 
-    //var own_coordinatesX = "";
-    //var own_coordinatesY = "";
     chatbox.innerHTML = chatbox.innerHTML + "Chat area...<br />"
 
     // Listen messages from server
     socket.on('connected', function(data) {
-        //console.log('Connected');
-        //audioShoot.play();
-        // ENABLE SET COORDINATES
-        //ownCoordsDisEn(false);
-        // DISABLE SHOOTING
-        //shootingDisEn(true);
-        // DISABLE MOVING
+        // Disable moving
         movingDisEn(true);
-
-        //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
-        //var mapExplosion = {X: last_explosion.X, Y: last_explosion.Y};
+        
+        // Draw map
         drawMap(own_coordinates, last_explosion, {X:0, Y:0}, false);
-        //owncoords.innerHTML = "Connected.";
     });
 
     //
@@ -221,33 +182,21 @@ window.onload = function() {
 
     socket.on('someoneshot', function(data) {
 
+        // Boom!
         audioShoot.play();
 
-        //infobox.innerHTML = data.coordinateX + " x " + data.coordinateY + " and " + own_coordinates.X + " x " + own_coordinates.Y;
-
-        //drawMap(mapSelf, mapExplosion, {X:0, Y:0}, false);
-
-        //last_explosion.X = data.target.X;
-        //last_explosion.Y = data.target.Y;
+        // Save last explosion
         last_explosion = data.target;
 
+        // Someone shot to player's coordinates
         if(data.target.X == own_coordinates.X && data.target.Y == own_coordinates.Y) {
 
             is_dead = true;
 
-            // ENABLE SET COORDINATES
-            //ownCoordsDisEn(false);
-            // DISABLE SHOOTING
-            //shootingDisEn(true);
-
-            //socket.emit('dead', {X: own_coordinates.X, Y: own_coordinates.Y});
             socket.emit('dead', own_coordinates);
 
             own_coordinates.X = 0;
             own_coordinates.Y = 0;
-
-            last_explosion.X = 0;
-            last_explosion.Y = 0;
 
             owncoords.innerHTML = "You were hit! <br />Set new coordinates (0-"+(game_area_size_x-1)+") x (0-"+(game_area_size_y-1)+") to play again.";
         }
@@ -256,10 +205,6 @@ window.onload = function() {
         }
 
         // Show approximate of origin (randomized by server) if data.id is not own_id
-
-        //var mapSelf = {X:own_coordinates.X, Y:own_coordinates.Y};
-        //var mapExplosion = {X: data.target.X, Y: data.target.Y};
-
         drawMap(own_coordinates, data.target, data.origin, (data.id != own_id));
     });
 
@@ -280,19 +225,7 @@ window.onload = function() {
     // Local input functions
     //
 
-    /*
-
-    // These arent working properly...
-
-    shoot.onclick = function () {
-        shootTo(coordX.value, coordY.value);
-    }
-
-    lockCoords.onclick = function () {
-        coordsTo(ownCoordsX.value,ownCoordsY.value);
-    }
-    */
-
+    // Chat message send or enter pressed
     sendChatMessage.onclick = function () {
         //console.log("chatmsg");
         chatMessage.value = chatMessage.value.replace(/<\/?[^>]+(>|$)/g, "");
@@ -310,6 +243,8 @@ window.onload = function() {
        }
     }
 
+    // Keyboard movement buttons (arrows)
+    
     document.onkeydown = function(e) {
     /*
     e.keyCode == 87 up w
@@ -336,6 +271,8 @@ window.onload = function() {
         }
     }
 
+    // Movement buttons (on web form)
+    
     moveup.onclick = function () {
         own_coordinates.Y = own_coordinates.Y-1;
         coordsTo(own_coordinates.X, own_coordinates.Y);
