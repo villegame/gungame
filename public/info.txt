@@ -1,8 +1,7 @@
-Set up your tank position by clicking desired X on map or by text fields on right. 
+Set up your tank position by clicking desired X on map. 
 
 After that you can move with either buttons on right or with keyboard (arrow keys). 
 
-Clicking on map when your tank is deployed will shoot. 
-Form fields on right can also be used to shoot. 
+Clicking on map when your tank is deployed will shoot.
 
 Moving and shooting have both cooldown of 2 seconds.

@@ -1,6 +1,11 @@
 p {
     font-family: "Times New Roman";
-    font-size: 22px;
+}
+
+#mapFont {
+    font-family: "Courier New";
+    font-size: 26px;
+    font-weight: bold;
 }
 
 #maplink {
@@ -53,7 +58,7 @@ td {
 #moving {
     background-color:slategray;
     width: 500px;
-    height: 115px;
+    height: 240px;
     padding: 10px;
 }
 

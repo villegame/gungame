@@ -12,26 +12,19 @@ var io = require('socket.io')(http);
 app.set('views','./views');
 app.set('view engine','jade');
 
-/*
-app.get('/', function(req,res) {
-    res.sendfile('public/index.html');
-});
-*/
-
-app.get('/', function(req,res) {
-    //res.sendfile('public/index.html');
-    res.render('index');
-});
-
 // Sets webroot to 'public' directory
 app.use('/', express.static('public'));
+
+app.get('/', function(req,res) {
+    //console.log('New connection with ' + req.headers['user-agent']);
+    res.render('index');
+});
 
 //
 // SERVER CODE STARTS HERE
 //
 
 var usersConnected = 0;
-//var dataPack = {userAmount:0};
 
 // Wait for connections
 io.on('connection', function(socket) {
@@ -39,38 +32,30 @@ io.on('connection', function(socket) {
     
     //console.log('User connected. Online: ' + usersConnected);
     socket.emit('connected', {message:"You are connected!"});
-    
-    var dataPack = {userAmount: usersConnected};
-    io.emit('gamedata',dataPack);
-    
+    io.emit('gamedata', {userAmount: usersConnected});    
     
     socket.on('disconnect', function(data) {
         usersConnected--;
-        //console.log('User disconnected. Online: ' + usersConnected);
         var dataPack = {userAmount: usersConnected};
         io.emit('gamedata',dataPack);
     });
     
     socket.on('shoot', function(data) {
-        //console.log('shooting... ' + data.coordinateX + " x " + data.coordinateY);
-        
         // Origin of shot:
         // Server should mix this by random +(-1,0, or +1) to x and y of origin value
-        data.origin.X += Math.floor((Math.random() * 3) - 1);
-        data.origin.Y += Math.floor((Math.random() * 3) - 1);
+        data.origin.X = (data.origin.X + Math.floor((Math.random() * 3) - 1));
+        data.origin.Y = (data.origin.Y + Math.floor((Math.random() * 3) - 1));
         io.emit('someoneshot',data);
     });
     
     socket.on('dead', function(data) {
-        //console.log('death... ' + data.coordinateX + " x " + data.coordinateY);
         io.emit('dead',data);
     });
     
     socket.on('chatmessage', function(data) {
-        // clean from special chars in here too JUST in case
+        // Clean from special chars in here too JUST in case
         data.sender = data.sender.replace(/<\/?[^>]+(>|$)/g, "");
         data.message = data.message.replace(/<\/?[^>]+(>|$)/g, "");
-        //console.log('chatmessage: ' + data.sender + ": " + data.message);
         io.emit('chatmessage', data); 
     });
     
