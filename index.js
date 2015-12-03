@@ -76,9 +76,10 @@ io.on('connection', function(socket) {
     
 });
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080             // CHANGE THIS TO THE PORT YOU WISH TO USE
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'  // ONLY NEEDED WITH RHCLOUD SERVICE
 
-http.listen(server_port, server_ip_address, function() {
-    console.log('listening port 80...');
+//http.listen(server_port, server_ip_address, function() {              // FOR RHCLOUD SERVICE
+http.listen(server_port, function() {                                   // USE THIS TO RUN ON YOUR OWN SERVER
+    console.log('listening port ' + server_port);
 });
