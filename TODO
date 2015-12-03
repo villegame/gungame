@@ -1,7 +1,0 @@
-1. Moving with keyboard (wsad) OR with form buttons (not so good option)
-2. Gun loading cooldown before shooting again
-3. Unique player names & chatbox (requires identification messages with server, server keeps list of players in game)
-4. Show approximate area of shot origin in map (not own shots, require unique player names in shots, no need to show own shots on map anymore)
-5. Hitpoints
-6. Widen the area of shot effect with for example 9 squares of which center is 100% hit and others 50% hits (requires hitpoints).
-7. Wind effect on shots (?)
